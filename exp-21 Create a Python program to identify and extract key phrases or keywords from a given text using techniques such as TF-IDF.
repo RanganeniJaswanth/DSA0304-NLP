@@ -1,0 +1,23 @@
+import nltk
+from sklearn.feature_extraction.text import TfidfVectorizer
+nltk.download('punkt')  # Download the punkt tokenizer if not already downloaded
+
+sentences = [
+    "Artificial intelligence (AI) is a field of computer science.",
+    "Machine learning is a subset of AI that focuses on training models to make predictions.",
+    "Deep learning is a type of machine learning that uses neural networks with multiple layers.",
+    "Neural networks are composed of interconnected nodes called neurons.",
+    "Recurrent neural networks (RNNs) are commonly used in natural language processing tasks."
+]
+
+tokenized_sentences = [nltk.word_tokenize(sentence) for sentence in sentences]
+vectorizer = TfidfVectorizer()
+tfidf_matrix = vectorizer.fit_transform([" ".join(tokens) for tokens in tokenized_sentences])
+feature_names = vectorizer.get_feature_names_out()
+tfidf_values = tfidf_matrix.toarray()
+for i, sentence in enumerate(sentences):
+    print(f"\nKeywords for Sentence {i + 1}:")
+    sorted_indices = tfidf_values[i].argsort()[::-1]  # Sort indices in descending order
+    for j in range(3):  # Display top 3 keywords per sentence
+        keyword_index = sorted_indices[j]
+        print(f"{feature_names[keyword_index]}: {tfidf_values[i][keyword_index]}")
