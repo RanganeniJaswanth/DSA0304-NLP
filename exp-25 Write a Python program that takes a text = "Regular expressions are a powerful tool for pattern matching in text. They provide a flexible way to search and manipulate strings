@@ -1,0 +1,14 @@
+import re
+def text_analysis(text):
+    # Define a regular expression pattern for finding words
+    word_pattern = re.compile(r'\b\w+\b')
+
+    # Find all words in the text
+    words = re.findall(word_pattern, text)
+
+    print(f"Total Words: {len(words)}")
+    print(f"Words: {', '.join(words)}")
+
+# Example Usage
+text = "Regular expressions are a powerful tool for pattern matching in text. They provide a flexible way to search and manipulate strings."
+text_analysis(text)
