@@ -1,0 +1,37 @@
+def fopc_parser(expression):
+    # Split the expression into tokens
+    tokens = expression.split()
+
+    # Define the operators and their precedence
+    operators = {'and': 2, 'or': 1, 'not': 3}
+
+    # Implement a basic stack-based parser
+    output = []
+    operator_stack = []
+
+    for token in tokens:
+        if token in operators:
+            while operator_stack and operators.get(operator_stack[-1], 0) >= operators.get(token, 0):
+                output.append(operator_stack.pop())
+            operator_stack.append(token)
+        elif token == '(':
+            operator_stack.append(token)
+        elif token == ')':
+            while operator_stack and operator_stack[-1] != '(':
+                output.append(operator_stack.pop())
+            operator_stack.pop()
+        else:
+            output.append(token)
+
+    while operator_stack:
+        output.append(operator_stack.pop())
+
+    return output
+
+# Example Usage
+expressions = ["x and y", "x or (not y)", "x and (y or (not x))"]
+
+for expression in expressions:
+    parsed_expression = fopc_parser(expression)
+    print(f"\nOriginal Expression: {expression}")
+    print(f"Parsed Expression: {parsed_expression}")
